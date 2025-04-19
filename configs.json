@@ -1,0 +1,19 @@
+{
+  "filters": [
+    { "target": "text", "type": "includes", "value": "126万円儲かりました" },
+    { "target": "text", "type": "includes", "value": "このトレーダーと出会ってから" },
+    { "target": "text", "type": "includes", "value": "この株式投資家に出会えて非常に幸運だった" },
+    { "target": "text", "type": "includes", "value": "この間の暴落回避できたのは" },
+    { "target": "text", "type": "includes", "value": "さすがのアナリストセンスですね" },
+    { "target": "text", "type": "includes", "value": "さんがインタビューに言った先生見つかった" },
+    { "target": "text", "type": "includes", "value": "しばらく観察していると、" },
+    { "target": "text", "type": "includes", "value": "ましたの返済ができたのは" },
+    { "target": "text", "type": "includes", "value": "債務を完済できましたの返済" },
+    { "target": "text", "type": "includes", "value": "彼のAI予測モデルによれば" },
+    { "target": "text", "type": "includes", "value": "彼の投資アドバイスに基づいて" },
+    { "target": "text", "type": "includes", "value": "数カ月ほど観察してみたところ" },
+    { "target": "text", "type": "includes", "value": "毎日必ずチェックするブロガー" },
+    { "target": "text", "type": "includes", "value": "氏が言及したブロガー" },
+    { "target": "text", "type": "includes", "value": "資金不足から抜け出せましたの" }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+
+  "description": "",
+  "manifest_version": 3,
+  "name": "X Filter Toolbox",
+  "version": "0.0.1",
+  "homepage_url": "https://github.com/goru/x-filter-toolbox",
+
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://x.com/*",
+    "https://mobile.x.com/*",
+    "https://twitter.com/*",
+    "https://mobile.twitter.com/*",
+    "https://raw.githubusercontent.com/*"
+  ],
+
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://x.com/*",
+        "https://mobile.x.com/*",
+        "https://twitter.com/*",
+        "https://mobile.twitter.com/*"
+      ],
+      "js": ["content/content.js"]
+    }
+  ],
+
+  "options_ui": {
+    "open_in_tab": true,
+    "page": "options/options.html"
+  },
+
+  "background": {
+    "scripts": ["background/background.js"],
+    "service_worker": "background/background.js"
+  }
+
+}

@@ -1,0 +1,27 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build_and_release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Archive
+        run: |
+          zip -r x-filter-toolbox-${{github.ref_name}}.zip background configs.json content lib manifest.json options popup
+          sed -i '/"scripts"/d' manifest.json
+          zip -r x-filter-toolbox-${{github.ref_name}}-chrome.zip background configs.json content lib manifest.json options popup
+
+      - name: Create Release
+        run: |
+          gh release create ${{github.ref_name}} --draft --generate-notes *.zip
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
