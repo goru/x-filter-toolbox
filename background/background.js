@@ -2,12 +2,9 @@ if (typeof browser == "undefined") {
   globalThis.browser = chrome;
 }
 
-const hour = 60 * 60 * 1000;
-
 async function update() {
   const configs = await browser.storage.local.get({
     'enabled': true,
-    'remote': [],
     'url': ['https://raw.githubusercontent.com/goru/x-filter-toolbox/refs/heads/main/configs.json'],
     'updated': 0
   });
@@ -17,7 +14,7 @@ async function update() {
   // 24時間以上経っていない
   if (!configs.enabled
     || configs.updated == Number.MAX_SAFE_INTEGER
-    || (Date.now() - configs.updated) < 24 * hour) {
+    || (Date.now() - configs.updated) < 24 * 60 * 60 * 1000) {
     return;
   }
 
@@ -41,13 +38,13 @@ async function update() {
   });
 }
 
-// インストール、起動時に確認
-update();
-
+// インストール、起動時
 // 1時間おきに確認
-(function check() {
-  setTimeout(() => {
-    update();
-    check();
-  }, hour);
-})();
+browser.alarms.create({
+  delayInMinutes: 0,
+  periodInMinutes: 60
+});
+
+browser.alarms.onAlarm.addListener(() => {
+  update();
+});

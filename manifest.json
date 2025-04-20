@@ -8,8 +8,9 @@
 
   "permissions": [
     "activeTab",
-    "storage",
-    "scripting"
+    "alarms",
+    "scripting",
+    "storage"
   ],
   "host_permissions": [
     "https://x.com/*",
