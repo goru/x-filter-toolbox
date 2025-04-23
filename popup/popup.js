@@ -7,6 +7,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     'enabled': true
   });
   document.querySelector('#switch-enabled').checked = configs.enabled;
+
+  // 今見ているタブがXかどうか
+  const tabs = await browser.tabs.query({
+    active: true,
+    currentWindow: true,
+    url: [
+      'https://x.com/*',
+      'https://mobile.x.com/*',
+      'https://twitter.com/*',
+      'https://mobile.twitter.com/*'
+    ]
+  });
+  if (tabs.length == 0) {
+    document.querySelector('#button-mute').setAttribute('disabled', '');
+    document.querySelector('#button-block').setAttribute('disabled', '');
+  }
 });
 
 document.querySelector('#switch-enabled').addEventListener('click', async (e) => {
@@ -18,7 +34,7 @@ document.querySelector('#switch-enabled').addEventListener('click', async (e) =>
 });
 
 document.querySelector('#button-mute').addEventListener('click', async (e) => {
-  (await browser.tabs.query({ 
+  (await browser.tabs.query({
     active: true,
     currentWindow: true,
     url: [
@@ -33,7 +49,7 @@ document.querySelector('#button-mute').addEventListener('click', async (e) => {
 });
 
 document.querySelector('#button-block').addEventListener('click', async (e) => {
-  (await browser.tabs.query({ 
+  (await browser.tabs.query({
     active: true,
     currentWindow: true,
     url: [
