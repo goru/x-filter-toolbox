@@ -219,7 +219,7 @@ let timeout = 600;
       return;
     }
 
-    if (getPosts() == 0) {
+    if (getPosts().length == 0) {
       init();
     } else {
       update();

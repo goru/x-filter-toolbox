@@ -48,3 +48,5 @@ browser.alarms.create({
 browser.alarms.onAlarm.addListener(() => {
   update();
 });
+
+update();
