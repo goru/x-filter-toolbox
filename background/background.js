@@ -38,6 +38,42 @@ async function update() {
   });
 }
 
+browser.menus.create({
+  'id': 'parent',
+  'title': 'X Filter Toolbox',
+  'contexts': ['selection']
+});
+browser.menus.create({
+  'parentId': 'parent',
+  'id': 'add',
+  'contexts': ['selection']
+});
+
+browser.menus.onShown.addListener(async (info) => {
+  if (info.menuIds.includes('add')) {
+    let text = info.selectionText;
+    if (text != undefined) {
+      text = text.length <= 15 ? text : text.substring(0, 15) + '...';
+    }
+    await browser.menus.update('add', {
+      'title': text ? '"' + text + '" をフィルタに追加' : '選択した文字列をフィルタに追加',
+      'enabled': info.selectionText != undefined
+    });
+    await browser.menus.refresh();
+  }
+});
+
+browser.menus.onClicked.addListener(async (info, tab) => {
+  if (info.menuItemId == 'add') {
+    const configs = await browser.storage.local.get({
+      'local': []
+    });
+    await browser.storage.local.set({
+      'local': configs.local.concat([{ target: 'text', type: 'includes', value: info.selectionText }])
+    });
+  }
+});
+
 // インストール、起動時
 // 1時間おきに確認
 browser.alarms.create({
