@@ -17,7 +17,7 @@ jobs:
       - name: Archive
         run: |
           zip -r x-filter-toolbox-${{github.ref_name}}.zip background configs.json content lib manifest.json options popup
-          sed -i '/"scripts"/d' manifest.json
+          mv manifest-chrome.json manifest.json
           zip -r x-filter-toolbox-${{github.ref_name}}-chrome.zip background configs.json content lib manifest.json options popup
 
       - name: Create Release

@@ -1,6 +1,9 @@
 if (typeof browser == "undefined") {
   globalThis.browser = chrome;
 }
+if (typeof browser.menus == "undefined") {
+  globalThis.browser.menus = chrome.contextMenus;
+}
 
 async function update() {
   const configs = await browser.storage.local.get({
@@ -38,6 +41,8 @@ async function update() {
   });
 }
 
+browser.menus.removeAll();
+
 browser.menus.create({
   'id': 'parent',
   'title': 'X Filter Toolbox',
@@ -46,22 +51,25 @@ browser.menus.create({
 browser.menus.create({
   'parentId': 'parent',
   'id': 'add',
+  'title': '選択した文字列をフィルタに追加',
   'contexts': ['selection']
 });
 
-browser.menus.onShown.addListener(async (info) => {
-  if (info.menuIds.includes('add')) {
-    let text = info.selectionText;
-    if (text != undefined) {
-      text = text.length <= 15 ? text : text.substring(0, 15) + '...';
+if (browser.menus.onShown != undefined) {
+  browser.menus.onShown.addListener(async (info) => {
+    if (info.menuIds.includes('add')) {
+      let text = info.selectionText;
+      if (text != undefined) {
+        text = text.length <= 15 ? text : text.substring(0, 15) + '...';
+      }
+      await browser.menus.update('add', {
+        'title': text ? '"' + text + '" をフィルタに追加' : '選択した文字列をフィルタに追加',
+        'enabled': info.selectionText != undefined
+      });
+      await browser.menus.refresh();
     }
-    await browser.menus.update('add', {
-      'title': text ? '"' + text + '" をフィルタに追加' : '選択した文字列をフィルタに追加',
-      'enabled': info.selectionText != undefined
-    });
-    await browser.menus.refresh();
-  }
-});
+  });
+}
 
 browser.menus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId == 'add') {
