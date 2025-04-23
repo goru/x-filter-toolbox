@@ -24,8 +24,6 @@ document.querySelector('#switch-enabled').addEventListener('click', async (e) =>
   await browser.storage.local.set({
     'enabled': enabled
   });
-
-  updateTabs();
 });
 
 document.querySelector('#button-save').addEventListener('click', async (e) => {
@@ -40,8 +38,6 @@ document.querySelector('#button-save').addEventListener('click', async (e) => {
     'url': url,
     'updated': updated
   });
-
-  updateTabs();
 });
 
 document.querySelector('#button-import').addEventListener('click', async (e) => {
@@ -83,22 +79,5 @@ function arrayToFilters(array) {
   return array.map((a) => {
     // とりあえずこの形式しか実装しない
     return { target: 'text', type: 'includes', value: a }
-  });
-}
-
-async function updateTabs() {
-  // タブが解放されていない、読み込み済みのタブを探す
-  // URLはmanifest.jsonで許可したものにしかマッチしない
-  (await browser.tabs.query({ 
-    discarded: false,
-    status: 'complete',
-    url: [
-      'https://x.com/*',
-      'https://mobile.x.com/*',
-      'https://twitter.com/*',
-      'https://mobile.twitter.com/*'
-    ]
-  })).forEach((t) => {
-    browser.scripting.executeScript({ target: { tabId: t.id }, func: () => { update() } });
   });
 }

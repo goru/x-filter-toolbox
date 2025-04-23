@@ -226,3 +226,10 @@ let timeout = 600;
     }
   }, 100);
 })();
+
+// 設定が変更されたら表示を更新
+browser.storage.onChanged.addListener(() => {
+  if (getPosts().length > 0) {
+    update();
+  }
+});

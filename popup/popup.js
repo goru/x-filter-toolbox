@@ -15,19 +15,6 @@ document.querySelector('#switch-enabled').addEventListener('click', async (e) =>
   await browser.storage.local.set({
     'enabled': enabled
   });
-
-  (await browser.tabs.query({ 
-    discarded: false,
-    status: 'complete',
-    url: [
-      'https://x.com/*',
-      'https://mobile.x.com/*',
-      'https://twitter.com/*',
-      'https://mobile.twitter.com/*'
-    ]
-  })).forEach((t) => {
-    browser.scripting.executeScript({ target: { tabId: t.id }, func: () => { update() } });
-  });
 });
 
 document.querySelector('#button-mute').addEventListener('click', async (e) => {
